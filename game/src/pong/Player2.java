@@ -4,7 +4,7 @@ public class Player2 {
 private int y = Game.window_height / 2;
 private int Vy = 0;
 private int width = 10;
-private int height = 40;
+private int height = 60;
 
 public Player2() {
     }
@@ -22,7 +22,7 @@ public void update() {
         return Game.window_width - 6 - (35 + width);
     }
 
-    public void setYVelocity(int speed) {
+    public void setYVel(int speed) {
         Vy = speed;
     }
 

@@ -4,7 +4,7 @@ public class Player1 {
     private int y = Game.window_height / 2;
     private int Vy = 0;
     private int width = 10;
-    private int height = 40;
+    private int height = 60;
 
     public Player1() {
     }
@@ -14,11 +14,11 @@ public class Player1 {
     }
 
     public void paint(Graphics g) {
-        g.setColor(Color.green);
+        g.setColor(Color.blue);
         g.fillRect(35, y, width, height);
     }
 
-    public void setYVelocity(int speed) {
+    public void setYVel(int speed) {
         Vy = speed;
     }
 
