@@ -1,4 +1,4 @@
-package com.snu.shagunbhatia.accelerometer;
+package com.farmassist.accelerometersocket;
 
 import android.app.Activity;
 import android.hardware.SensorEvent;
@@ -21,7 +21,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class MainActivity extends Activity implements SensorEventListener{
+public class MainActivity extends AppCompatActivity implements SensorEventListener{
     Sensor acc;
     SensorManager sm;
     TextView et1, tv1;
@@ -30,27 +30,24 @@ public class MainActivity extends Activity implements SensorEventListener{
     private PrintWriter out;
     EditText etf1;
     Button bt1;
-    String SERVER_IP ;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        bt1=(Button)findViewById(R.id.button);
-        et1=(TextView)findViewById(R.id.accelerator);
-        etf1=(EditText)findViewById(R.id.editText);
-        tv1=(TextView) findViewById(R.id.textView1);
+        bt1=(Button)findViewById(R.id.send);
+        et1=(TextView)findViewById(R.id.textin);
+        etf1=(EditText)findViewById(R.id.ipadr);
+        tv1=(TextView) findViewById(R.id.tv1);
         sm=(SensorManager)getSystemService(SENSOR_SERVICE);
         acc=sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sm.registerListener((SensorEventListener) this,acc,SensorManager.SENSOR_DELAY_FASTEST);
+        sm.registerListener(this,acc,SensorManager.SENSOR_DELAY_GAME);
         bt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"running"+etf1.getText().toString(),Toast.LENGTH_LONG).show();
-                String SERVER_IP =etf1.getText().toString();
+                Toast.makeText(getApplicationContext(),"running "+etf1.getText().toString(),Toast.LENGTH_LONG).show();
                 new Thread(new ClientThread()).start();
             }
         });
-
     }
 
     @Override
@@ -64,7 +61,7 @@ public class MainActivity extends Activity implements SensorEventListener{
         if (out != null){
             out.println(event.values[1]);
             //out.flush();
-    }
+        }
     }
 
     @Override
@@ -72,31 +69,19 @@ public class MainActivity extends Activity implements SensorEventListener{
 
     }
    /* public void onClick(View view) {
-
         try {
-
-
-
             String str = etf1.getText().toString();
-
             PrintWriter out = new PrintWriter(new BufferedWriter(
             new OutputStreamWriter(sk.getOutputStream())),
-
             true);
-
             out.println(event.values[1]);
         } catch (UnknownHostException e) {
-
             e.printStackTrace();
-
         } catch (IOException e) {
             e.printStackTrace();
-
         } catch (Exception e) {
             e.printStackTrace();
-
         }
-
     }*/
 
     class ClientThread implements Runnable {
@@ -105,9 +90,7 @@ public class MainActivity extends Activity implements SensorEventListener{
             try {
                 sk = new Socket(etf1.getText().toString(), SERVERPORT);
                 out = new PrintWriter(new BufferedWriter(
-                        new OutputStreamWriter(sk.getOutputStream())),
-
-                        true);
+                        new OutputStreamWriter(sk.getOutputStream())), true);
                 //out.println("Hello");
                 //out.flush();
                 //sk.close();
@@ -119,4 +102,16 @@ public class MainActivity extends Activity implements SensorEventListener{
         }
     }
 
+    @Override
+    protected void onStop() {
+        if (sk != null) {
+            try {
+                sk.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        sm.unregisterListener(this);
+        super.onDestroy();
+    }
 }
