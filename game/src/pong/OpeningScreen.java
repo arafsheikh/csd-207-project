@@ -20,6 +20,7 @@ OpenScr.add(textLabel, BorderLayout.CENTER);
         StartButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 new Game();
+                OpenScr.setVisible(false);
             }
         });
 
