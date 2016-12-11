@@ -17,19 +17,19 @@ public class Ball extends JFrame
         y = y + Vy;
 
         if (x < 0) {
-            Vx = 10;
+            Vx = 8;
             player2Score = player2Score + 1;
             ScoreCheck();
         } else if (x + size > Game.window_width) {
-            Vx = -10;
+            Vx = -8;
             player1Score = player1Score + 1;
             ScoreCheck();
         }
 
         if (y < 0) {
-            Vy = 10;
+            Vy = 8;
         } else if (y + size > Game.window_height) {
-            Vy = -10;
+            Vy = -8;
         }
     }
 

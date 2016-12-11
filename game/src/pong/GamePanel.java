@@ -24,7 +24,7 @@ Ball ball = new Ball();
 Player2 player2 = new Player2();
 public GamePanel() 
 {
-  Timer time = new Timer(50, this);
+  Timer time = new Timer(40, this);
   time.start();
   //this.addKeyListener(this);
   Server2 server = new Server2(5321);
@@ -40,6 +40,7 @@ private void update()
         ball.chkCollision(player1);
         ball.chkCollision(player2);
         ball.hitWall();
+        Toolkit.getDefaultToolkit().sync();
 }
 public void paint(Graphics g) 
 {
